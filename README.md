@@ -1,4 +1,4 @@
-﻿# ARCL â€” Architecture Cloud & Automatisation Terraform
+# ARCL — Architecture Cloud & Automatisation Terraform
 
 [![GitHub Pages Demo](https://img.shields.io/badge/Demo_En_Ligne-GitHub_Pages-38bdf8?style=for-the-badge&logo=github)](https://TimolSchool.github.io/ARCL-local/)
 [![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)](https://www.terraform.io/)
@@ -9,83 +9,83 @@
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL_15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
 > **Projet d'Architecture Cloud & DevOps (EPITA)**  
-> DÃ©ploiement automatisÃ© d'une infrastructure rÃ©siliente et hautement disponible combinant **AWS** (Application Load Balancer, EC2 multi-AZ, Nginx reverse proxy), **OpenStack** (Base de donnÃ©es self-service PostgreSQL), et un **Dashboard Web de pilotage (Terraform Runner UI)**.
+> Déploiement automatisé d'une infrastructure résiliente et hautement disponible combinant **AWS** (Application Load Balancer, EC2 multi-AZ, Nginx reverse proxy), **OpenStack** (Base de données self-service PostgreSQL), et un **Dashboard Web de pilotage (Terraform Runner UI)**.
 
 ---
 
-## ðŸŒ DÃ©monstration en Ligne Gratuite (GitHub Pages)
+## 🌐 Démonstration en Ligne Gratuite (GitHub Pages)
 
 Vous pouvez tester l'infrastructure et l'application directement dans votre navigateur sans aucune installation :
 
-ðŸ‘‰ **[https://TimolSchool.github.io/ARCL-local/](https://TimolSchool.github.io/ARCL-local/)**
+👉 **[https://TimolSchool.github.io/ARCL-local/](https://TimolSchool.github.io/ARCL-local/)**
 
 Sur cette page interactive, vous pouvez :
-- **Piloter le Terraform Runner** : dÃ©clencher `apply`, `destroy`, et allumer/Ã©teindre les instances EC2 en observant les logs en temps rÃ©el.
-- **Consulter le schÃ©ma d'architecture interactif** et les dÃ©tails rÃ©seau (VPC, Subnets, ALB, SG).
-- **Tester l'application Notes dÃ©ployÃ©e** (CRUD complet, vÃ©rification `/api/health`).
+- **Piloter le Terraform Runner** : déclencher `apply`, `destroy`, et allumer/éteindre les instances EC2 en observant les logs en temps réel.
+- **Consulter le schéma d'architecture interactif** et les détails réseau (VPC, Subnets, ALB, SG).
+- **Tester l'application Notes déployée** (CRUD complet, vérification `/api/health`).
 
 ---
 
-## ðŸ›ï¸ SchÃ©ma d'Architecture Multi-Niveaux
+## 🏛️ Schéma d'Architecture Multi-Niveaux
 
 ```text
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                           CLIENT / NAVIGATEUR                                 â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                                        â”‚ RequÃªtes HTTP (:80)
-                                        â–¼
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚               AWS APPLICATION LOAD BALANCER (TheUltimateLoadbalancer)         â”‚
-â”‚                     RÃ¨gle d'Ã©coute : /* â”€â”€â–º Target Group : app-tg             â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                        â”‚                               â”‚
-            Round-Robin â”‚ Port 80                       â”‚ Port 80
-                        â–¼                               â–¼
-        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-        â”‚       INSTANCE EC2 #1         â”‚ â”‚       INSTANCE EC2 #2         â”‚
-        â”‚     Sous-rÃ©seau eu-west-3a    â”‚ â”‚     Sous-rÃ©seau eu-west-3b    â”‚
-        â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
-        â”‚ â”‚ Nginx Reverse Proxy (:80) â”‚ â”‚ â”‚ â”‚ Nginx Reverse Proxy (:80) â”‚ â”‚
-        â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-        â”‚               â”‚ Proxy /api/   â”‚ â”‚               â”‚ Proxy /api/   â”‚
-        â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
-        â”‚ â”‚ Node.js Express API (:3001)â”‚ â”‚ â”‚ â”‚ Node.js Express API (:3001)â”‚ â”‚
-        â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                        â”‚                                 â”‚
-                        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                                        â”‚ RequÃªtes SQL (:5432)
-                                        â–¼
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                    CLUSTER BASE DE DONNÃ‰ES (Self-Service)                     â”‚
-â”‚                  PostgreSQL 15 provisionnÃ© via Terraform                      â”‚
-â”‚                     Base : notesdb â”€â”€ Table : notes                           â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                           CLIENT / NAVIGATEUR                                 │
+└───────────────────────────────────────┬───────────────────────────────────────┘
+                                        │ Requêtes HTTP (:80)
+                                        ▼
+┌───────────────────────────────────────────────────────────────────────────────┐
+│               AWS APPLICATION LOAD BALANCER (TheUltimateLoadbalancer)         │
+│                     Règle d'écoute : /* ──► Target Group : app-tg             │
+└───────────────────────┬───────────────────────────────┬───────────────────────┘
+                        │                               │
+            Round-Robin │ Port 80                       │ Port 80
+                        ▼                               ▼
+        ┌───────────────────────────────┐ ┌───────────────────────────────┐
+        │       INSTANCE EC2 #1         │ │       INSTANCE EC2 #2         │
+        │     Sous-réseau eu-west-3a    │ │     Sous-réseau eu-west-3b    │
+        │ ┌───────────────────────────┐ │ │ ┌───────────────────────────┐ │
+        │ │ Nginx Reverse Proxy (:80) │ │ │ │ Nginx Reverse Proxy (:80) │ │
+        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
+        │               │ Proxy /api/   │ │               │ Proxy /api/   │
+        │ ┌─────────────▼─────────────┐ │ │ ┌─────────────▼─────────────┐ │
+        │ │ Node.js Express API (:3001)│ │ │ │ Node.js Express API (:3001)│ │
+        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
+        └───────────────┼───────────────┘ └───────────────┼───────────────┘
+                        │                                 │
+                        └───────────────┬─────────────────┘
+                                        │ Requêtes SQL (:5432)
+                                        ▼
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                    CLUSTER BASE DE DONNÉES (Self-Service)                     │
+│                  PostgreSQL 15 provisionné via Terraform                      │
+│                     Base : notesdb ── Table : notes                           │
+└───────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## ðŸš€ DÃ©marrage en Local sur N'importe Quel PC
+## 🚀 Démarrage en Local sur N'importe Quel PC
 
-Le projet a Ã©tÃ© adaptÃ© pour fonctionner de maniÃ¨re reproductible sur n'importe quel ordinateur (Windows, macOS, Linux).
+Le projet a été adapté pour fonctionner de manière reproductible sur n'importe quel ordinateur (Windows, macOS, Linux).
 
-### Option 1 : Stack ComplÃ¨te avec Docker Compose (RecommandÃ©)
+### Option 1 : Stack Complète avec Docker Compose (Recommandé)
 
-Cette option dÃ©marre l'intÃ©gralitÃ© de la topologie rÃ©seau en conteneurs (l'ALB Nginx, les deux instances applicatives EC2, la base de donnÃ©es PostgreSQL et le Terraform Runner UI).
+Cette option démarre l'intégralité de la topologie réseau en conteneurs (l'ALB Nginx, les deux instances applicatives EC2, la base de données PostgreSQL et le Terraform Runner UI).
 
 ```bash
-# 1. Cloner le dÃ©pÃ´t
+# 1. Cloner le dépôt
 git clone https://github.com/TimolSchool/ARCL-local.git
 cd ARCL-local
 
-# 2. DÃ©marrer toute l'architecture en local
+# 2. Démarrer toute l'architecture en local
 docker compose up -d
 ```
 
-Une fois les conteneurs dÃ©marrÃ©s :
-- ðŸŽ›ï¸ **Dashboard Terraform Runner UI** : [http://localhost:8080](http://localhost:8080)
-- ðŸŒ **Application via le Load Balancer (ALB)** : [http://localhost:80](http://localhost:80)
-- ðŸ—„ï¸ **Base de donnÃ©es PostgreSQL** : `localhost:5432` (`notesdb` / user: `postgres` / pass: `postgres`)
+Une fois les conteneurs démarrés :
+- 🎛️ **Dashboard Terraform Runner UI** : [http://localhost:8080](http://localhost:8080)
+- 🌐 **Application via le Load Balancer (ALB)** : [http://localhost:80](http://localhost:80)
+- 🗄️ **Base de données PostgreSQL** : `localhost:5432` (`notesdb` / user: `postgres` / pass: `postgres`)
 
 Pour stopper la stack :
 ```bash
@@ -96,7 +96,7 @@ docker compose down
 
 ### Option 2 : Terraform Runner en Node.js Natif (Sans Docker)
 
-Si vous avez uniquement Node.js installÃ© :
+Si vous avez uniquement Node.js installé :
 
 ```bash
 cd terraform-runner-ui
@@ -105,61 +105,61 @@ node server.js
 
 Puis ouvrez votre navigateur sur [http://localhost:8080](http://localhost:8080).
 
-> **Note d'exÃ©cution** : Si des identifiants AWS rÃ©els sont configurÃ©s dans votre terminal, le serveur exÃ©cute les vraies commandes Terraform sur AWS. Sinon, il active automatiquement le **mode DÃ©mo / Simulation** pour permettre une dÃ©monstration fluide et sans frais d'infrastructure.
+> **Note d'exécution** : Si des identifiants AWS réels sont configurés dans votre terminal, le serveur exécute les vraies commandes Terraform sur AWS. Sinon, il active automatiquement le **mode Démo / Simulation** pour permettre une démonstration fluide et sans frais d'infrastructure.
 
 ---
 
-## ðŸ“‚ Structure du RÃ©pertoire
+## 📂 Structure du Répertoire
 
 ```text
 ARCL-local/
-â”œâ”€â”€ final/                      # Infrastructure AWS (ALB, EC2, Target Groups, User-Data)
-â”‚   â””â”€â”€ realfinal.tf
-â”œâ”€â”€ intermediate/               # Scripts de tests Terraform (ALB + Instances)
-â”‚   â””â”€â”€ main.tf
-â”œâ”€â”€ selfservice-db/             # Infrastructure OpenStack pour la base de donnÃ©es
-â”‚   â”œâ”€â”€ main.tf
-â”‚   â”œâ”€â”€ providers.tf
-â”‚   â”œâ”€â”€ variables.tf
-â”‚   â”œâ”€â”€ outputs.tf
-â”‚   â”œâ”€â”€ cloud-init-db-1.yaml
-â”‚   â””â”€â”€ cloud-init-db-2.yaml
-â”œâ”€â”€ terraform-runner-ui/        # Dashboard Web Node.js pour orchestrer Terraform
-â”‚   â”œâ”€â”€ server.js
-â”‚   â”œâ”€â”€ README.md
-â”‚   â””â”€â”€ public/
-â”‚       â”œâ”€â”€ index.html
-â”‚       â””â”€â”€ app.js
-â”œâ”€â”€ app/                        # Code source de l'application dÃ©ployÃ©e
-â”‚   â”œâ”€â”€ backend/                # API REST Express + PostgreSQL
-â”‚   â”‚   â”œâ”€â”€ src/index.js
-â”‚   â”‚   â”œâ”€â”€ init.sql
-â”‚   â”‚   â””â”€â”€ package.json
-â”‚   â””â”€â”€ frontend/               # Interface utilisateur React + Vite
-â”‚       â”œâ”€â”€ src/
-â”‚       â””â”€â”€ package.json
-â”œâ”€â”€ docker/                     # Configuration pour la simulation locale Docker
-â”‚   â”œâ”€â”€ Dockerfile.app
-â”‚   â”œâ”€â”€ Dockerfile.runner
-â”‚   â””â”€â”€ nginx-alb.conf
-â”œâ”€â”€ docs/                       # Site statique pour hÃ©bergement GitHub Pages
-â”‚   â””â”€â”€ index.html
-â”œâ”€â”€ docker-compose.yml          # Orchestration multi-conteneurs locale
-â”œâ”€â”€ .gitignore                  # Exclusion des secrets et artefacts temporaires
-â””â”€â”€ README.md
+├── final/                      # Infrastructure AWS (ALB, EC2, Target Groups, User-Data)
+│   └── realfinal.tf
+├── intermediate/               # Scripts de tests Terraform (ALB + Instances)
+│   └── main.tf
+├── selfservice-db/             # Infrastructure OpenStack pour la base de données
+│   ├── main.tf
+│   ├── providers.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   ├── cloud-init-db-1.yaml
+│   └── cloud-init-db-2.yaml
+├── terraform-runner-ui/        # Dashboard Web Node.js pour orchestrer Terraform
+│   ├── server.js
+│   ├── README.md
+│   └── public/
+│       ├── index.html
+│       └── app.js
+├── app/                        # Code source de l'application déployée
+│   ├── backend/                # API REST Express + PostgreSQL
+│   │   ├── src/index.js
+│   │   ├── init.sql
+│   │   └── package.json
+│   └── frontend/               # Interface utilisateur React + Vite
+│       ├── src/
+│       └── package.json
+├── docker/                     # Configuration pour la simulation locale Docker
+│   ├── Dockerfile.app
+│   ├── Dockerfile.runner
+│   └── nginx-alb.conf
+├── docs/                       # Site statique pour hébergement GitHub Pages
+│   └── index.html
+├── docker-compose.yml          # Orchestration multi-conteneurs locale
+├── .gitignore                  # Exclusion des secrets et artefacts temporaires
+└── README.md
 ```
 
 ---
 
-## ðŸ”’ SÃ©curitÃ© et Bonnes Pratiques
+## 🔒 Sécurité et Bonnes Pratiques
 
-- **ZÃ©ro Secret en Clair** : Aucun identifiant actif (AWS Access Keys, tokens privÃ©s) n'est prÃ©sent dans ce dÃ©pÃ´t. Un modÃ¨le `aws_k/AK.example` est fourni Ã  titre indicatif.
-- **Isolation RÃ©seau** : En production sur AWS, les Security Groups n'autorisent l'accÃ¨s HTTP sur les ports applicatifs qu'en provenance de l'Application Load Balancer.
-- **PortabilitÃ© Totale** : Le projet inclut Ã  la fois les manifestes d'Infrastructure as Code (Terraform) pour le cloud et un environnement Docker Compose pour tester l'architecture en local sans abonnement cloud.
+- **Zéro Secret en Clair** : Aucun identifiant actif (AWS Access Keys, tokens privés) n'est présent dans ce dépôt. Un modèle `aws_k/AK.example` est fourni à titre indicatif.
+- **Isolation Réseau** : En production sur AWS, les Security Groups n'autorisent l'accès HTTP sur les ports applicatifs qu'en provenance de l'Application Load Balancer.
+- **Portabilité Totale** : Le projet inclut à la fois les manifestes d'Infrastructure as Code (Terraform) pour le cloud et un environnement Docker Compose pour tester l'architecture en local sans abonnement cloud.
 
 ---
 
-## ðŸ‘¤ Auteur & Contexte
+## 👤 Auteur & Contexte
 
-- **Auteur** : Alexis Busson ([@TimolSchool](https://github.com/TimolSchool)) â€” Ã‰tudiant EPITA
+- **Auteur** : Alexis Busson ([@TimolSchool](https://github.com/TimolSchool)) — Étudiant EPITA
 - **Projet** : Architecture Cloud (ARCL)

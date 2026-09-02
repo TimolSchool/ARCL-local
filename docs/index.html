@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ARCL â€” Architecture Cloud AWS & Terraform Runner</title>
+  <title>ARCL — Architecture Cloud AWS & Terraform Runner</title>
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -445,9 +445,9 @@
 
   <!-- Header -->
   <header class="hero">
-    <div class="hero-badge">â˜ï¸ EPITA â€” Projet Cloud Architecture & Automatisation</div>
+    <div class="hero-badge">☁️ EPITA — Projet Cloud Architecture & Automatisation</div>
     <h1>ARCL : AWS Infrastructure & Terraform Runner</h1>
-    <p>DÃ©ploiement automatisÃ© d'une architecture rÃ©siliente multi-niveaux sur AWS (ALB + Cluster EC2 Nginx/Node.js/React) et OpenStack (PostgreSQL Cluster), orchestrÃ© par un dashboard web autonome.</p>
+    <p>Déploiement automatisé d'une architecture résiliente multi-niveaux sur AWS (ALB + Cluster EC2 Nginx/Node.js/React) et OpenStack (PostgreSQL Cluster), orchestré par un dashboard web autonome.</p>
     
     <div class="tech-stack">
       <span class="tag">Terraform</span>
@@ -466,16 +466,16 @@
         Voir le Code sur GitHub
       </a>
       <button class="btn-hero" onclick="copyDockerCmd()">
-        ðŸ“‹ Copier commande Docker
+        📋 Copier commande Docker
       </button>
     </div>
   </header>
 
   <!-- Navigation Tabs -->
   <div class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab('runner')">âš¡ Terraform Runner (Live)</button>
-    <button class="tab-btn" onclick="switchTab('architecture')">ðŸ›ï¸ SchÃ©ma d'Architecture</button>
-    <button class="tab-btn" onclick="switchTab('app')">ðŸ“± Application Notes (Live Demo)</button>
+    <button class="tab-btn active" onclick="switchTab('runner')">⚡ Terraform Runner (Live)</button>
+    <button class="tab-btn" onclick="switchTab('architecture')">🏛️ Schéma d'Architecture</button>
+    <button class="tab-btn" onclick="switchTab('app')">📱 Application Notes (Live Demo)</button>
   </div>
 
   <div class="container">
@@ -494,8 +494,8 @@
             <div class="section-title">1. Infrastructure AWS (final/realfinal.tf)</div>
             <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">VPC, Subnets, ALB, Target Groups & 2 EC2 Instances.</p>
             <div class="btn-group">
-              <button id="applyBtn" class="btn btn-primary" onclick="runSimulation('apply')">â–¶ Apply</button>
-              <button id="destroyBtn" class="btn btn-danger" onclick="runSimulation('destroy')">âœ• Destroy</button>
+              <button id="applyBtn" class="btn btn-primary" onclick="runSimulation('apply')">▶ Apply</button>
+              <button id="destroyBtn" class="btn btn-danger" onclick="runSimulation('destroy')">✕ Destroy</button>
             </div>
           </div>
 
@@ -504,8 +504,8 @@
             <div class="section-title">2. OpenStack Self-Service DB</div>
             <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Cluster PostgreSQL 15 cloud-init (10.200.0.x).</p>
             <div class="btn-group">
-              <button id="dbApplyBtn" class="btn btn-primary" onclick="runSimulation('db-apply')">â–¶ Apply DB</button>
-              <button id="dbDestroyBtn" class="btn btn-danger" onclick="runSimulation('db-destroy')">âœ• Destroy DB</button>
+              <button id="dbApplyBtn" class="btn btn-primary" onclick="runSimulation('db-apply')">▶ Apply DB</button>
+              <button id="dbDestroyBtn" class="btn btn-danger" onclick="runSimulation('db-destroy')">✕ Destroy DB</button>
             </div>
           </div>
 
@@ -513,8 +513,8 @@
           <div class="section-block">
             <div class="section-title">3. Instances EC2 Tagged Name=app-ec2-*</div>
             <div class="btn-group">
-              <button id="startBtn" class="btn btn-success" onclick="runPowerAction('start')" style="display:none;">âš¡ DÃ©marrer</button>
-              <button id="stopBtn" class="btn btn-warning" onclick="runPowerAction('stop')">â¹ Stopper</button>
+              <button id="startBtn" class="btn btn-success" onclick="runPowerAction('start')" style="display:none;">⚡ Démarrer</button>
+              <button id="stopBtn" class="btn btn-warning" onclick="runPowerAction('stop')">⏹ Stopper</button>
             </div>
             <div class="instance-list">
               <div class="instance-item">
@@ -537,7 +537,7 @@
               <div class="dot dot-yellow"></div>
               <div class="dot dot-green"></div>
             </div>
-            <div class="term-title">bash â€” terraform output streaming</div>
+            <div class="term-title">bash — terraform output streaming</div>
             <div class="status-badge">
               <div id="pulseDot" class="pulse-dot"></div>
               <span id="statusLabel">idle</span>
@@ -551,59 +551,59 @@
     <!-- TAB 2: ARCHITECTURE -->
     <div id="tab-architecture" class="tab-pane">
       <div class="arch-card">
-        <h2>Architecture DÃ©ployÃ©e (AWS & OpenStack)</h2>
-        <p>Le projet combine deux fournisseurs cloud pour garantir haute disponibilitÃ© et isolation des donnÃ©es :</p>
+        <h2>Architecture Déployée (AWS & OpenStack)</h2>
+        <p>Le projet combine deux fournisseurs cloud pour garantir haute disponibilité et isolation des données :</p>
         
         <div class="arch-diagram">
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                           CLIENT / UTILISATEUR                                 â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                                        â”‚ HTTP (Port 80)
-                                        â–¼
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚               AWS APPLICATION LOAD BALANCER (TheUltimateLoadbalancer)          â”‚
-â”‚                      Listener Rule: /* â”€â”€â–º Target Group: app-tg                â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                        â”‚                               â”‚
-            Round-Robin â”‚ Port 80                       â”‚ Port 80
-                        â–¼                               â–¼
-        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-        â”‚       INSTANCE EC2 #1         â”‚ â”‚       INSTANCE EC2 #2         â”‚
-        â”‚      (Zone eu-west-3a)        â”‚ â”‚      (Zone eu-west-3b)        â”‚
-        â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
-        â”‚ â”‚ Nginx Reverse Proxy (:80) â”‚ â”‚ â”‚ â”‚ Nginx Reverse Proxy (:80) â”‚ â”‚
-        â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-        â”‚               â”‚ Proxy /api    â”‚ â”‚               â”‚ Proxy /api    â”‚
-        â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
-        â”‚ â”‚ Node.js Express API (:3001)â”‚ â”‚ â”‚ â”‚ Node.js Express API (:3001)â”‚ â”‚
-        â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                        â”‚                                 â”‚
-                        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                                        â”‚ SQL Queries (Port 5432)
-                                        â–¼
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                     OPENSTACK PRIVATE CLOUD (Cluster BDD)                      â”‚
-â”‚                  PostgreSQL 15 Cluster (cloud-init bootstrap)                  â”‚
-â”‚                     Base: notesdb (Table: notes)                               â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                           CLIENT / UTILISATEUR                                 │
+└───────────────────────────────────────┬────────────────────────────────────────┘
+                                        │ HTTP (Port 80)
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│               AWS APPLICATION LOAD BALANCER (TheUltimateLoadbalancer)          │
+│                      Listener Rule: /* ──► Target Group: app-tg                │
+└───────────────────────┬───────────────────────────────┬────────────────────────┘
+                        │                               │
+            Round-Robin │ Port 80                       │ Port 80
+                        ▼                               ▼
+        ┌───────────────────────────────┐ ┌───────────────────────────────┐
+        │       INSTANCE EC2 #1         │ │       INSTANCE EC2 #2         │
+        │      (Zone eu-west-3a)        │ │      (Zone eu-west-3b)        │
+        │ ┌───────────────────────────┐ │ │ ┌───────────────────────────┐ │
+        │ │ Nginx Reverse Proxy (:80) │ │ │ │ Nginx Reverse Proxy (:80) │ │
+        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
+        │               │ Proxy /api    │ │               │ Proxy /api    │
+        │ ┌─────────────▼─────────────┐ │ │ ┌─────────────▼─────────────┐ │
+        │ │ Node.js Express API (:3001)│ │ │ │ Node.js Express API (:3001)│ │
+        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
+        └───────────────┼───────────────┘ └───────────────┼───────────────┘
+                        │                                 │
+                        └───────────────┬─────────────────┘
+                                        │ SQL Queries (Port 5432)
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                     OPENSTACK PRIVATE CLOUD (Cluster BDD)                      │
+│                  PostgreSQL 15 Cluster (cloud-init bootstrap)                  │
+│                     Base: notesdb (Table: notes)                               │
+└────────────────────────────────────────────────────────────────────────────────┘
         </div>
 
         <div class="arch-grid">
           <div class="arch-item">
-            <h4>âš–ï¸ Application Load Balancer</h4>
-            <p>RÃ©partition de charge automatique en Round-Robin entre les sous-rÃ©seaux publics avec vÃ©rification de santÃ© HTTP (Health Checks).</p>
+            <h4>⚖️ Application Load Balancer</h4>
+            <p>Répartition de charge automatique en Round-Robin entre les sous-réseaux publics avec vérification de santé HTTP (Health Checks).</p>
           </div>
           <div class="arch-item">
-            <h4>ðŸš€ Instances EC2 Autonomes</h4>
-            <p>Bootstrap via <code>user_data</code> : installation automatique de Node.js 20, Nginx, PM2, clonage du dÃ©pÃ´t d'application et configuration du service systemd.</p>
+            <h4>🚀 Instances EC2 Autonomes</h4>
+            <p>Bootstrap via <code>user_data</code> : installation automatique de Node.js 20, Nginx, PM2, clonage du dépôt d'application et configuration du service systemd.</p>
           </div>
           <div class="arch-item">
-            <h4>ðŸ—„ï¸ Base de DonnÃ©es Self-Service</h4>
-            <p>ProvisionnÃ©e sur OpenStack via Terraform avec scripts <code>cloud-init</code> pour configurer les rÃ´les PostgreSQL et la crÃ©ation du schÃ©ma <code>notesdb</code>.</p>
+            <h4>🗄️ Base de Données Self-Service</h4>
+            <p>Provisionnée sur OpenStack via Terraform avec scripts <code>cloud-init</code> pour configurer les rôles PostgreSQL et la création du schéma <code>notesdb</code>.</p>
           </div>
           <div class="arch-item">
-            <h4>ðŸ›¡ï¸ SÃ©curitÃ© RÃ©seau (SG)</h4>
+            <h4>🛡️ Sécurité Réseau (SG)</h4>
             <p>Les instances applicatives n'acceptent le trafic HTTP que provenant des Security Groups de l'ALB, isolant totalement le trafic interne.</p>
           </div>
         </div>
@@ -615,8 +615,8 @@
       <div class="notes-container">
         <div class="notes-header">
           <div>
-            <h2 style="color:white; font-size:1.3rem;">Application DÃ©ployÃ©e : Notes REST API</h2>
-            <p style="color:#94a3b8; font-size:0.9rem;">Cette application full-stack (React + Express + PostgreSQL) est celle dÃ©ployÃ©e automatiquement sur chaque instance EC2.</p>
+            <h2 style="color:white; font-size:1.3rem;">Application Déployée : Notes REST API</h2>
+            <p style="color:#94a3b8; font-size:0.9rem;">Cette application full-stack (React + Express + PostgreSQL) est celle déployée automatiquement sur chaque instance EC2.</p>
           </div>
           <div style="font-family:var(--font-mono); font-size:0.85rem; color:#10b981; background:rgba(16,185,129,0.1); padding:4px 12px; border-radius:6px; border:1px solid rgba(16,185,129,0.25);">
             GET /api/health: <strong id="healthStatus">200 OK (DB Connected)</strong>
@@ -625,7 +625,7 @@
 
         <!-- Add Note Form -->
         <form class="notes-form" onsubmit="addNote(event)">
-          <input type="text" id="noteTitle" class="input-field" placeholder="Titre de la note (ex: DÃ©ploiement ALB)" required />
+          <input type="text" id="noteTitle" class="input-field" placeholder="Titre de la note (ex: Déploiement ALB)" required />
           <input type="text" id="noteContent" class="input-field" placeholder="Contenu de la note..." required />
           <button type="submit" class="btn btn-primary" style="padding:10px 20px;">+ Ajouter</button>
         </form>
@@ -719,7 +719,7 @@
         streamLines(lines, () => {
           instancesActive = true;
           updateInstanceStateView();
-          setTerminalStatus('ok Â· apply', '');
+          setTerminalStatus('ok · apply', '');
         });
       } else if (action === 'destroy') {
         const lines = [
@@ -739,7 +739,7 @@
         streamLines(lines, () => {
           instancesActive = false;
           updateInstanceStateView();
-          setTerminalStatus('ok Â· destroy', '');
+          setTerminalStatus('ok · destroy', '');
         });
       } else if (action === 'db-apply') {
         const lines = [
@@ -754,7 +754,7 @@
           `db1_ip = "10.200.0.2"`,
           `db2_ip = "10.200.0.3"`
         ];
-        streamLines(lines, () => setTerminalStatus('ok Â· db-apply', ''));
+        streamLines(lines, () => setTerminalStatus('ok · db-apply', ''));
       } else if (action === 'db-destroy') {
         const lines = [
           `[${ts}] Destroying OpenStack database instances...`,
@@ -764,7 +764,7 @@
           `openstack_compute_instance_v2.db2: Destruction complete after 9s`,
           `Destroy complete! Resources: 2 destroyed.`
         ];
-        streamLines(lines, () => setTerminalStatus('ok Â· db-destroy', ''));
+        streamLines(lines, () => setTerminalStatus('ok · db-destroy', ''));
       }
     }
 
@@ -777,9 +777,9 @@
       setTimeout(() => {
         instancesActive = (action === 'start');
         updateInstanceStateView();
-        term.textContent += `{\n  "StartingInstances": [\n    { "InstanceId": "i-09f1c7d24a8e1b001", "CurrentState": { "Name": "${instancesActive ? 'running' : 'stopped'}" } },\n    { "InstanceId": "i-09f1c7d24a8e1b002", "CurrentState": { "Name": "${instancesActive ? 'running' : 'stopped'}" } }\n  ]\n}\n\nAction ${action} terminÃ©e avec succÃ¨s.`;
+        term.textContent += `{\n  "StartingInstances": [\n    { "InstanceId": "i-09f1c7d24a8e1b001", "CurrentState": { "Name": "${instancesActive ? 'running' : 'stopped'}" } },\n    { "InstanceId": "i-09f1c7d24a8e1b002", "CurrentState": { "Name": "${instancesActive ? 'running' : 'stopped'}" } }\n  ]\n}\n\nAction ${action} terminée avec succès.`;
         isRunning = false;
-        setTerminalStatus('ok Â· ' + action, '');
+        setTerminalStatus('ok · ' + action, '');
       }, 700);
     }
 
@@ -819,9 +819,9 @@
 
     // Notes App Demo (Client-side interactive state)
     let sampleNotes = [
-      { id: 1, title: "Architecture Multi-Tier AWS", content: "Mise en place de l'Application Load Balancer avec 2 instances EC2 dans 2 zones de disponibilitÃ© diffÃ©rentes pour tolÃ©rance aux pannes.", time: "Aujourd'hui Ã  10:45" },
-      { id: 2, title: "Base de donnÃ©es OpenStack", content: "Provisionnement de la base PostgreSQL 15 sur le cloud privÃ© via cloud-init. Initialisation du schÃ©ma notesdb.", time: "Aujourd'hui Ã  11:12" },
-      { id: 3, title: "Automatisation Terraform Runner", content: "Interface web de pilotage dÃ©veloppÃ©e en Node.js pour dÃ©clencher terraform apply/destroy et piloter les instances sans console AWS.", time: "Aujourd'hui Ã  11:30" }
+      { id: 1, title: "Architecture Multi-Tier AWS", content: "Mise en place de l'Application Load Balancer avec 2 instances EC2 dans 2 zones de disponibilité différentes pour tolérance aux pannes.", time: "Aujourd'hui à 10:45" },
+      { id: 2, title: "Base de données OpenStack", content: "Provisionnement de la base PostgreSQL 15 sur le cloud privé via cloud-init. Initialisation du schéma notesdb.", time: "Aujourd'hui à 11:12" },
+      { id: 3, title: "Automatisation Terraform Runner", content: "Interface web de pilotage développée en Node.js pour déclencher terraform apply/destroy et piloter les instances sans console AWS.", time: "Aujourd'hui à 11:30" }
     ];
 
     function renderNotes() {
@@ -836,7 +836,7 @@
             <div class="note-content">${escapeHtml(note.content)}</div>
           </div>
           <div class="note-footer">
-            <span>ðŸ“… ${note.time}</span>
+            <span>📅 ${note.time}</span>
             <button class="btn-delete" onclick="deleteNote(${note.id})">Supprimer</button>
           </div>
         `;
@@ -856,7 +856,7 @@
         id: Date.now(),
         title,
         content,
-        time: "Ã€ l'instant"
+        time: "À l'instant"
       };
       sampleNotes.unshift(newNote);
       titleInput.value = '';
@@ -876,7 +876,7 @@
     function copyDockerCmd() {
       const cmd = "git clone https://github.com/TimolSchool/ARCL-local.git && cd ARCL-local && docker compose up";
       navigator.clipboard.writeText(cmd).then(() => {
-        alert("Commande copiÃ©e dans le presse-papier :\n" + cmd);
+        alert("Commande copiée dans le presse-papier :\n" + cmd);
       });
     }
 
