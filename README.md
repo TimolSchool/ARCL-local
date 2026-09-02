@@ -158,8 +158,3 @@ ARCL-local/
 - **Portabilité Totale** : Le projet inclut à la fois les manifestes d'Infrastructure as Code (Terraform) pour le cloud et un environnement Docker Compose pour tester l'architecture en local sans abonnement cloud.
 
 ---
-
-## 👤 Auteur & Contexte
-
-- **Auteur** : Alexis Busson ([@TimolSchool](https://github.com/TimolSchool)) — Étudiant EPITA
-- **Projet** : Architecture Cloud (ARCL)
