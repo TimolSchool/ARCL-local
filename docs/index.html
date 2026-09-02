@@ -303,7 +303,7 @@
       line-height: 1.6;
     }
 
-    /* Architecture Tab */
+    /* Architecture Tab - MODERN VISUAL DIAGRAM */
     .arch-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -311,24 +311,138 @@
       padding: 32px;
       margin-bottom: 24px;
     }
-    .arch-card h2 { font-size: 1.4rem; margin-bottom: 12px; color: white; }
-    .arch-card p { color: var(--text-muted); margin-bottom: 24px; }
-    .arch-diagram {
-      background: #0b1120;
+    .arch-card h2 { font-size: 1.4rem; margin-bottom: 8px; color: white; }
+    .arch-card p.intro { color: var(--text-muted); margin-bottom: 24px; }
+
+    .visual-arch {
+      background: #070b14;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 32px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .v-node {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      max-width: 540px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s;
+    }
+    .v-node:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .v-icon {
+      font-size: 1.8rem;
+      background: #1e293b;
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .v-info { flex: 1; }
+    .v-title { font-weight: 700; font-size: 0.98rem; color: #fff; }
+    .v-desc { font-size: 0.8rem; color: #94a3b8; font-family: var(--font-mono); margin-top: 2px; }
+    .v-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-aws { background: rgba(255, 153, 0, 0.15); color: #ff9900; border: 1px solid rgba(255, 153, 0, 0.3); }
+    .badge-os { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-user { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+
+    .v-flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: #38bdf8;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .v-line {
+      width: 2px;
+      height: 22px;
+      background: linear-gradient(180deg, #38bdf8, #818cf8);
+    }
+    .v-arrow {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #818cf8;
+    }
+
+    .v-cluster {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+      max-width: 780px;
+    }
+    @media (max-width: 680px) {
+      .v-cluster { grid-template-columns: 1fr; }
+    }
+    .v-ec2 {
+      background: #0f172a;
       border: 1px solid #1e293b;
       border-radius: 12px;
-      padding: 24px;
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      color: #38bdf8;
-      line-height: 1.5;
-      overflow-x: auto;
-      margin-bottom: 24px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.2s;
     }
+    .v-ec2:hover {
+      border-color: #818cf8;
+      transform: translateY(-2px);
+    }
+    .v-ec2-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 8px;
+    }
+    .v-ec2-name { font-weight: 700; color: #e2e8f0; font-size: 0.95rem; }
+    .v-subtier {
+      background: #090d16;
+      border: 1px solid #1f2937;
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+    }
+    .v-subtier .st-label { color: #cbd5e1; }
+    .v-subtier .st-port { color: #38bdf8; font-weight: 600; font-size: 0.75rem; background: #1e293b; padding: 2px 6px; border-radius: 4px; }
+
     .arch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
+      margin-top: 10px;
     }
     .arch-item {
       background: #0f172a;
@@ -338,13 +452,13 @@
     }
     .arch-item h4 {
       color: #38bdf8;
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .arch-item p { color: #94a3b8; font-size: 0.88rem; margin: 0; }
+    .arch-item p { color: #94a3b8; font-size: 0.85rem; margin: 0; line-height: 1.5; }
 
     /* Notes App Tab */
     .notes-container {
@@ -445,7 +559,7 @@
 
   <!-- Header -->
   <header class="hero">
-    <div class="hero-badge">☁️ EPITA — Projet Cloud Architecture & Automatisation</div>
+    <div class="hero-badge">EPITA — Projet Cloud Architecture & Automatisation</div>
     <h1>ARCL : AWS Infrastructure & Terraform Runner</h1>
     <p>Déploiement automatisé d'une architecture résiliente multi-niveaux sur AWS (ALB + Cluster EC2 Nginx/Node.js/React) et OpenStack (PostgreSQL Cluster), orchestré par un dashboard web autonome.</p>
     
@@ -466,16 +580,16 @@
         Voir le Code sur GitHub
       </a>
       <button class="btn-hero" onclick="copyDockerCmd()">
-        📋 Copier commande Docker
+        Copier commande Docker
       </button>
     </div>
   </header>
 
   <!-- Navigation Tabs -->
   <div class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab('runner')">⚡ Terraform Runner (Live)</button>
-    <button class="tab-btn" onclick="switchTab('architecture')">🏛️ Schéma d'Architecture</button>
-    <button class="tab-btn" onclick="switchTab('app')">📱 Application Notes (Live Demo)</button>
+    <button class="tab-btn active" onclick="switchTab('runner')">Terraform Runner (Live)</button>
+    <button class="tab-btn" onclick="switchTab('architecture')">Schéma d'Architecture</button>
+    <button class="tab-btn" onclick="switchTab('app')">Application Notes (Live Demo)</button>
   </div>
 
   <div class="container">
@@ -494,8 +608,8 @@
             <div class="section-title">1. Infrastructure AWS (final/realfinal.tf)</div>
             <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">VPC, Subnets, ALB, Target Groups & 2 EC2 Instances.</p>
             <div class="btn-group">
-              <button id="applyBtn" class="btn btn-primary" onclick="runSimulation('apply')">▶ Apply</button>
-              <button id="destroyBtn" class="btn btn-danger" onclick="runSimulation('destroy')">✕ Destroy</button>
+              <button id="applyBtn" class="btn btn-primary" onclick="runSimulation('apply')">Apply</button>
+              <button id="destroyBtn" class="btn btn-danger" onclick="runSimulation('destroy')">Destroy</button>
             </div>
           </div>
 
@@ -504,8 +618,8 @@
             <div class="section-title">2. OpenStack Self-Service DB</div>
             <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Cluster PostgreSQL 15 cloud-init (10.200.0.x).</p>
             <div class="btn-group">
-              <button id="dbApplyBtn" class="btn btn-primary" onclick="runSimulation('db-apply')">▶ Apply DB</button>
-              <button id="dbDestroyBtn" class="btn btn-danger" onclick="runSimulation('db-destroy')">✕ Destroy DB</button>
+              <button id="dbApplyBtn" class="btn btn-primary" onclick="runSimulation('db-apply')">Apply DB</button>
+              <button id="dbDestroyBtn" class="btn btn-danger" onclick="runSimulation('db-destroy')">Destroy DB</button>
             </div>
           </div>
 
@@ -513,8 +627,8 @@
           <div class="section-block">
             <div class="section-title">3. Instances EC2 Tagged Name=app-ec2-*</div>
             <div class="btn-group">
-              <button id="startBtn" class="btn btn-success" onclick="runPowerAction('start')" style="display:none;">⚡ Démarrer</button>
-              <button id="stopBtn" class="btn btn-warning" onclick="runPowerAction('stop')">⏹ Stopper</button>
+              <button id="startBtn" class="btn btn-success" onclick="runPowerAction('start')" style="display:none;">Démarrer</button>
+              <button id="stopBtn" class="btn btn-warning" onclick="runPowerAction('stop')">Stopper</button>
             </div>
             <div class="instance-list">
               <div class="instance-item">
@@ -548,63 +662,125 @@
       </div>
     </div>
 
-    <!-- TAB 2: ARCHITECTURE -->
+    <!-- TAB 2: ARCHITECTURE (VISUAL & CLEAN) -->
     <div id="tab-architecture" class="tab-pane">
       <div class="arch-card">
         <h2>Architecture Déployée (AWS & OpenStack)</h2>
-        <p>Le projet combine deux fournisseurs cloud pour garantir haute disponibilité et isolation des données :</p>
+        <p class="intro">Ce schéma représente la topologie réelle mise en œuvre par les scripts Terraform multi-fournisseurs (AWS pour la couche applicative, OpenStack pour la base de données) :</p>
         
-        <div class="arch-diagram">
-┌────────────────────────────────────────────────────────────────────────────────┐
-│                           CLIENT / UTILISATEUR                                 │
-└───────────────────────────────────────┬────────────────────────────────────────┘
-                                        │ HTTP (Port 80)
-                                        ▼
-┌────────────────────────────────────────────────────────────────────────────────┐
-│               AWS APPLICATION LOAD BALANCER (TheUltimateLoadbalancer)          │
-│                      Listener Rule: /* ──► Target Group: app-tg                │
-└───────────────────────┬───────────────────────────────┬────────────────────────┘
-                        │                               │
-            Round-Robin │ Port 80                       │ Port 80
-                        ▼                               ▼
-        ┌───────────────────────────────┐ ┌───────────────────────────────┐
-        │       INSTANCE EC2 #1         │ │       INSTANCE EC2 #2         │
-        │      (Zone eu-west-3a)        │ │      (Zone eu-west-3b)        │
-        │ ┌───────────────────────────┐ │ │ ┌───────────────────────────┐ │
-        │ │ Nginx Reverse Proxy (:80) │ │ │ │ Nginx Reverse Proxy (:80) │ │
-        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
-        │               │ Proxy /api    │ │               │ Proxy /api    │
-        │ ┌─────────────▼─────────────┐ │ │ ┌─────────────▼─────────────┐ │
-        │ │ Node.js Express API (:3001)│ │ │ │ Node.js Express API (:3001)│ │
-        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
-        └───────────────┼───────────────┘ └───────────────┼───────────────┘
-                        │                                 │
-                        └───────────────┬─────────────────┘
-                                        │ SQL Queries (Port 5432)
-                                        ▼
-┌────────────────────────────────────────────────────────────────────────────────┐
-│                     OPENSTACK PRIVATE CLOUD (Cluster BDD)                      │
-│                  PostgreSQL 15 Cluster (cloud-init bootstrap)                  │
-│                     Base: notesdb (Table: notes)                               │
-└────────────────────────────────────────────────────────────────────────────────┘
+        <!-- VISUAL DIAGRAM CONTAINER -->
+        <div class="visual-arch">
+          <!-- 1. Client -->
+          <div class="v-node">
+            <div class="v-icon">🌐</div>
+            <div class="v-info">
+              <div class="v-title">Utilisateur / Navigateur Web</div>
+              <div class="v-desc">Requêtes HTTP sur le port 80</div>
+            </div>
+            <span class="v-badge badge-user">Public</span>
+          </div>
+
+          <!-- Connector -->
+          <div class="v-flow">
+            <span>HTTP :80 (Internet)</span>
+            <div class="v-line"></div>
+            <div class="v-arrow"></div>
+          </div>
+
+          <!-- 2. Application Load Balancer -->
+          <div class="v-node" style="border-color: rgba(255, 153, 0, 0.4);">
+            <div class="v-icon" style="background: rgba(255, 153, 0, 0.15); color: #ff9900;">⚖️</div>
+            <div class="v-info">
+              <div class="v-title">AWS Application Load Balancer (ALB)</div>
+              <div class="v-desc">TheUltimateLoadbalancer • Règle /* ➔ Target Group: app-tg</div>
+            </div>
+            <span class="v-badge badge-aws">AWS ALB</span>
+          </div>
+
+          <!-- Connector Split -->
+          <div class="v-flow">
+            <span>Répartition Round-Robin (HTTP :80)</span>
+            <div class="v-line"></div>
+            <div class="v-arrow"></div>
+          </div>
+
+          <!-- 3. EC2 Instances Cluster -->
+          <div class="v-cluster">
+            <!-- EC2 #1 -->
+            <div class="v-ec2">
+              <div class="v-ec2-top">
+                <span class="v-ec2-name">Instance EC2 #1 (app-ec2-1)</span>
+                <span class="v-badge badge-aws">eu-west-3a</span>
+              </div>
+              <div class="v-subtier">
+                <span class="st-label">Nginx Reverse Proxy</span>
+                <span class="st-port">Port 80</span>
+              </div>
+              <div class="v-subtier">
+                <span class="st-label">Node.js Express API</span>
+                <span class="st-port">Port 3001</span>
+              </div>
+              <div class="v-subtier">
+                <span class="st-label">Frontend React (Vite)</span>
+                <span class="st-port">Static /dist</span>
+              </div>
+            </div>
+
+            <!-- EC2 #2 -->
+            <div class="v-ec2">
+              <div class="v-ec2-top">
+                <span class="v-ec2-name">Instance EC2 #2 (app-ec2-2)</span>
+                <span class="v-badge badge-aws">eu-west-3b</span>
+              </div>
+              <div class="v-subtier">
+                <span class="st-label">Nginx Reverse Proxy</span>
+                <span class="st-port">Port 80</span>
+              </div>
+              <div class="v-subtier">
+                <span class="st-label">Node.js Express API</span>
+                <span class="st-port">Port 3001</span>
+              </div>
+              <div class="v-subtier">
+                <span class="st-label">Frontend React (Vite)</span>
+                <span class="st-port">Static /dist</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connector to Database -->
+          <div class="v-flow">
+            <span>Requêtes SQL (TCP :5432)</span>
+            <div class="v-line"></div>
+            <div class="v-arrow"></div>
+          </div>
+
+          <!-- 4. OpenStack Database -->
+          <div class="v-node" style="border-color: rgba(239, 68, 68, 0.4);">
+            <div class="v-icon" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">🗄️</div>
+            <div class="v-info">
+              <div class="v-title">Cluster PostgreSQL 15 (Self-Service)</div>
+              <div class="v-desc">OpenStack Private Cloud • Base : notesdb • IP: 10.200.0.2</div>
+            </div>
+            <span class="v-badge badge-os">OpenStack</span>
+          </div>
         </div>
 
         <div class="arch-grid">
           <div class="arch-item">
-            <h4>⚖️ Application Load Balancer</h4>
-            <p>Répartition de charge automatique en Round-Robin entre les sous-réseaux publics avec vérification de santé HTTP (Health Checks).</p>
+            <h4>Application Load Balancer</h4>
+            <p>Répartition automatique du trafic en Round-Robin entre les deux zones de disponibilité (eu-west-3a et eu-west-3b) avec sondes de santé HTTP régulières.</p>
           </div>
           <div class="arch-item">
-            <h4>🚀 Instances EC2 Autonomes</h4>
-            <p>Bootstrap via <code>user_data</code> : installation automatique de Node.js 20, Nginx, PM2, clonage du dépôt d'application et configuration du service systemd.</p>
+            <h4>Instances EC2 Autonomes</h4>
+            <p>Script <code>user_data</code> exécuté au démarrage : installation de Node.js 20, Nginx, PM2, configuration de systemd et compilation du frontend React.</p>
           </div>
           <div class="arch-item">
-            <h4>🗄️ Base de Données Self-Service</h4>
-            <p>Provisionnée sur OpenStack via Terraform avec scripts <code>cloud-init</code> pour configurer les rôles PostgreSQL et la création du schéma <code>notesdb</code>.</p>
+            <h4>Base de Données Self-Service</h4>
+            <p>Cluster PostgreSQL provisionné sur OpenStack via cloud-init, isolé sur le réseau privé 10.200.0.x pour protéger les données applicatives.</p>
           </div>
           <div class="arch-item">
-            <h4>🛡️ Sécurité Réseau (SG)</h4>
-            <p>Les instances applicatives n'acceptent le trafic HTTP que provenant des Security Groups de l'ALB, isolant totalement le trafic interne.</p>
+            <h4>Sécurité Réseau (SG)</h4>
+            <p>Les instances EC2 n'acceptent le trafic HTTP sur le port 80 que s'il provient strictement du Security Group de l'ALB.</p>
           </div>
         </div>
       </div>

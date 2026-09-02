@@ -13,7 +13,7 @@
 
 ---
 
-## 🌐 Démonstration en Ligne Gratuite (GitHub Pages)
+## Démonstration en Ligne Gratuite (GitHub Pages)
 
 Vous pouvez tester l'infrastructure et l'application directement dans votre navigateur sans aucune installation :
 
@@ -26,46 +26,45 @@ Sur cette page interactive, vous pouvez :
 
 ---
 
-## 🏛️ Schéma d'Architecture Multi-Niveaux
+## Schéma d'Architecture Multi-Niveaux
 
-```text
-┌───────────────────────────────────────────────────────────────────────────────┐
-│                           CLIENT / NAVIGATEUR                                 │
-└───────────────────────────────────────┬───────────────────────────────────────┘
-                                        │ Requêtes HTTP (:80)
-                                        ▼
-┌───────────────────────────────────────────────────────────────────────────────┐
-│               AWS APPLICATION LOAD BALANCER (TheUltimateLoadbalancer)         │
-│                     Règle d'écoute : /* ──► Target Group : app-tg             │
-└───────────────────────┬───────────────────────────────┬───────────────────────┘
-                        │                               │
-            Round-Robin │ Port 80                       │ Port 80
-                        ▼                               ▼
-        ┌───────────────────────────────┐ ┌───────────────────────────────┐
-        │       INSTANCE EC2 #1         │ │       INSTANCE EC2 #2         │
-        │     Sous-réseau eu-west-3a    │ │     Sous-réseau eu-west-3b    │
-        │ ┌───────────────────────────┐ │ │ ┌───────────────────────────┐ │
-        │ │ Nginx Reverse Proxy (:80) │ │ │ │ Nginx Reverse Proxy (:80) │ │
-        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
-        │               │ Proxy /api/   │ │               │ Proxy /api/   │
-        │ ┌─────────────▼─────────────┐ │ │ ┌─────────────▼─────────────┐ │
-        │ │ Node.js Express API (:3001)│ │ │ │ Node.js Express API (:3001)│ │
-        │ └─────────────┬─────────────┘ │ │ └─────────────┬─────────────┘ │
-        └───────────────┼───────────────┘ └───────────────┼───────────────┘
-                        │                                 │
-                        └───────────────┬─────────────────┘
-                                        │ Requêtes SQL (:5432)
-                                        ▼
-┌───────────────────────────────────────────────────────────────────────────────┐
-│                    CLUSTER BASE DE DONNÉES (Self-Service)                     │
-│                  PostgreSQL 15 provisionné via Terraform                      │
-│                     Base : notesdb ── Table : notes                           │
-└───────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Client(["🌐 Utilisateur / Navigateur Web"]) -->|HTTP :80| ALB["⚖️ AWS Application Load Balancer<br><i>TheUltimateLoadbalancer</i><br>Règle: /* ➔ Target Group: app-tg"]
+
+    subgraph AWS["☁️ Cloud Public AWS (eu-west-3)"]
+        ALB -->|Round-Robin :80| EC2_1["🖥️ Instance EC2 #1 (app-ec2-1)<br>Zone: eu-west-3a"]
+        ALB -->|Round-Robin :80| EC2_2["🖥️ Instance EC2 #2 (app-ec2-2)<br>Zone: eu-west-3b"]
+
+        subgraph EC2_1_Services["Services EC2 #1"]
+            EC2_1 --- NGINX1["Nginx Reverse Proxy (:80)"]
+            NGINX1 -->|proxy_pass /api/| NODE1["Node.js Express API (:3001)"]
+            NGINX1 --- REACT1["React SPA Frontend (/var/www/html)"]
+        end
+
+        subgraph EC2_2_Services["Services EC2 #2"]
+            EC2_2 --- NGINX2["Nginx Reverse Proxy (:80)"]
+            NGINX2 -->|proxy_pass /api/| NODE2["Node.js Express API (:3001)"]
+            NGINX2 --- REACT2["React SPA Frontend (/var/www/html)"]
+        end
+    end
+
+    subgraph OpenStack["🏢 Cloud Privé OpenStack"]
+        NODE1 -->|SQL Queries :5432| DB[("🗄️ Cluster PostgreSQL 15<br>Base: notesdb • IP: 10.200.0.2")]
+        NODE2 -->|SQL Queries :5432| DB
+    end
+
+    classDef awsBox fill:#0f172a,stroke:#ff9900,stroke-width:2px,color:#fff;
+    classDef osBox fill:#0f172a,stroke:#ef4444,stroke-width:2px,color:#fff;
+    classDef clientBox fill:#0369a1,stroke:#38bdf8,stroke-width:2px,color:#fff;
+    class ALB,EC2_1,EC2_2 awsBox;
+    class DB osBox;
+    class Client clientBox;
 ```
 
 ---
 
-## 🚀 Démarrage en Local sur N'importe Quel PC
+## Démarrage en Local sur N'importe Quel PC
 
 Le projet a été adapté pour fonctionner de manière reproductible sur n'importe quel ordinateur (Windows, macOS, Linux).
 
@@ -83,9 +82,9 @@ docker compose up -d
 ```
 
 Une fois les conteneurs démarrés :
-- 🎛️ **Dashboard Terraform Runner UI** : [http://localhost:8080](http://localhost:8080)
-- 🌐 **Application via le Load Balancer (ALB)** : [http://localhost:80](http://localhost:80)
-- 🗄️ **Base de données PostgreSQL** : `localhost:5432` (`notesdb` / user: `postgres` / pass: `postgres`)
+- **Dashboard Terraform Runner UI** : [http://localhost:8080](http://localhost:8080)
+- **Application via le Load Balancer (ALB)** : [http://localhost:80](http://localhost:80)
+- **Base de données PostgreSQL** : `localhost:5432` (`notesdb` / user: `postgres` / pass: `postgres`)
 
 Pour stopper la stack :
 ```bash
@@ -109,7 +108,7 @@ Puis ouvrez votre navigateur sur [http://localhost:8080](http://localhost:8080).
 
 ---
 
-## 📂 Structure du Répertoire
+## Structure du Répertoire
 
 ```text
 ARCL-local/
@@ -151,10 +150,9 @@ ARCL-local/
 
 ---
 
-## 🔒 Sécurité et Bonnes Pratiques
+## Sécurité et Bonnes Pratiques
 
 - **Zéro Secret en Clair** : Aucun identifiant actif (AWS Access Keys, tokens privés) n'est présent dans ce dépôt. Un modèle `aws_k/AK.example` est fourni à titre indicatif.
 - **Isolation Réseau** : En production sur AWS, les Security Groups n'autorisent l'accès HTTP sur les ports applicatifs qu'en provenance de l'Application Load Balancer.
 - **Portabilité Totale** : Le projet inclut à la fois les manifestes d'Infrastructure as Code (Terraform) pour le cloud et un environnement Docker Compose pour tester l'architecture en local sans abonnement cloud.
 
----
