@@ -1,0 +1,82 @@
+﻿version: '3.8'
+
+services:
+  # Load Balancer (Application Load Balancer AWS simulation)
+  alb:
+    image: nginx:alpine
+    container_name: arcl-alb
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx-alb.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app-ec2-1
+      - app-ec2-2
+
+  # Instance EC2 #1 (React Frontend + Node.js Backend API)
+  app-ec2-1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app
+    container_name: arcl-ec2-1
+    restart: always
+    environment:
+      - PORT=3001
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_NAME=notesdb
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - FRONTEND_URL=*
+    depends_on:
+      - database
+
+  # Instance EC2 #2 (React Frontend + Node.js Backend API)
+  app-ec2-2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app
+    container_name: arcl-ec2-2
+    restart: always
+    environment:
+      - PORT=3001
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_NAME=notesdb
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - FRONTEND_URL=*
+    depends_on:
+      - database
+
+  # Base de donnees (PostgreSQL Cluster simulation)
+  database:
+    image: postgres:15-alpine
+    container_name: arcl-database
+    restart: always
+    environment:
+      - POSTGRES_DB=notesdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./app/backend/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Interface Web Terraform Runner
+  runner-ui:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.runner
+    container_name: arcl-runner-ui
+    restart: always
+    environment:
+      - PORT=8080
+      - MOCK_MODE=true
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:

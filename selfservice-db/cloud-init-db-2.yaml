@@ -1,0 +1,114 @@
+#cloud-config
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - postgresql
+  - postgresql-contrib
+  - python3-pip
+  - python3-psycopg2
+  - python3-dev
+  - gcc
+  - libpq-dev
+  - curl
+  - jq
+
+write_files:
+  - path: /etc/patroni.yml
+    permissions: "0644"
+    content: |
+      scope: selfservice-postgres-cluster
+      namespace: /db/
+      name: selfservice-db-2
+
+      restapi:
+        listen: 0.0.0.0:8008
+        connect_address: 172.16.0.57:8008
+
+      etcd3:
+        host: 192.168.100.1:2379
+
+      bootstrap:
+        dcs:
+          ttl: 30
+          loop_wait: 10
+          retry_timeout: 10
+          maximum_lag_on_failover: 1048576
+          postgresql:
+            use_pg_rewind: true
+            use_slots: true
+            parameters:
+              wal_level: replica
+              hot_standby: on
+              max_wal_senders: 5
+              wal_keep_size: 256
+              hot_standby_feedback: on
+
+        initdb:
+          - encoding: UTF8
+          - data-checksums
+
+        pg_hba:
+          - host replication replicator 172.16.0.0/24 scram-sha-256
+          - host all all 10.200.0.0/24 scram-sha-256
+          - host all all 0.0.0.0/0 scram-sha-256
+
+        users:
+          admin:
+            password: admin-password
+            options:
+              - createrole
+              - createdb
+
+      postgresql:
+        listen: "0.0.0.0:5432"
+        connect_address: "172.16.0.57:5432"
+        data_dir: /var/lib/postgresql/16/patroni
+        bin_dir: /usr/lib/postgresql/16/bin
+        pgpass: /tmp/pgpass
+
+        authentication:
+          replication:
+            username: replicator
+            password: replicator-password
+          superuser:
+            username: postgres
+            password: postgres-password
+
+      tags:
+        nofailover: false
+        noloadbalance: false
+        clonefrom: false
+        nosync: false
+
+  - path: /etc/systemd/system/patroni.service
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=Patroni PostgreSQL HA Cluster
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=simple
+      User=postgres
+      Group=postgres
+      ExecStart=/usr/local/bin/patroni /etc/patroni.yml
+      Restart=always
+      RestartSec=5
+      LimitNOFILE=262144
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+  - systemctl stop postgresql || true
+  - systemctl disable postgresql || true
+  - mkdir -p /var/lib/postgresql/16/patroni
+  - chown -R postgres:postgres /var/lib/postgresql/16/patroni
+  - chmod 700 /var/lib/postgresql/16/patroni
+  - pip3 install --break-system-packages "patroni[etcd]"
+  - systemctl daemon-reload
+  - systemctl enable patroni
+  - systemctl start patroni

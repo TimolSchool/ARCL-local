@@ -1,0 +1,887 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCL â€” Architecture Cloud AWS & Terraform Runner</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f293d;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --accent: #818cf8;
+      --danger: #f43f5e;
+      --danger-hover: #e11d48;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --term-bg: #030712;
+      --font-main: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    /* Top banner */
+    .hero {
+      background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #090d16 70%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 40px 24px 30px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 9999px;
+      padding: 4px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 20px;
+      font-size: 1.05rem;
+    }
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tag {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1f293d;
+      color: white;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid #334155;
+      transition: all 0.2s;
+    }
+    .btn-hero:hover {
+      background: #334155;
+      border-color: #475569;
+    }
+    .btn-hero.primary {
+      background: var(--primary);
+      color: #04101e;
+      border-color: var(--primary);
+    }
+    .btn-hero.primary:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px auto 30px;
+      padding: 0 16px;
+      max-width: 1000px;
+    }
+    .tab-btn {
+      background: #111827;
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: white; border-color: #38bdf8; }
+    .tab-btn.active {
+      background: #1e293b;
+      color: #38bdf8;
+      border-color: #38bdf8;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Runner UI styling */
+    .runner-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .runner-grid { grid-template-columns: 1fr; }
+    }
+    .control-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .control-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-block {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1e293b;
+    }
+    .section-block:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .btn-group { display: flex; gap: 8px; }
+    .btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+    .btn-danger { background: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); }
+    .btn-danger:hover:not(:disabled) { background: #f43f5e; color: white; }
+    .btn-success { background: #059669; color: white; }
+    .btn-success:hover:not(:disabled) { background: #047857; }
+    .btn-warning { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .btn-warning:hover:not(:disabled) { background: #f59e0b; color: white; }
+
+    /* Instance status items */
+    .instance-list {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .instance-item {
+      background: #0b1120;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+    .inst-name { font-weight: 600; font-family: var(--font-mono); }
+    .inst-state {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .inst-state.running { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .inst-state.stopped { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+
+    /* Terminal Console */
+    .terminal-card {
+      background: var(--term-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 580px;
+    }
+    .terminal-header {
+      background: #111827;
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .term-dots { display: flex; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+    .term-title { font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono); }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: #94a3b8;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+    .pulse-dot.running { background: #38bdf8; box-shadow: 0 0 8px #38bdf8; animation: blink 1s infinite; }
+    .pulse-dot.err { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
+    @keyframes blink { 50% { opacity: 0.3; } }
+
+    .terminal-body {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #a7f3d0;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    /* Architecture Tab */
+    .arch-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .arch-card h2 { font-size: 1.4rem; margin-bottom: 12px; color: white; }
+    .arch-card p { color: var(--text-muted); margin-bottom: 24px; }
+    .arch-diagram {
+      background: #0b1120;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      color: #38bdf8;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .arch-item {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .arch-item h4 {
+      color: #38bdf8;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .arch-item p { color: #94a3b8; font-size: 0.88rem; margin: 0; }
+
+    /* Notes App Tab */
+    .notes-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 30px;
+    }
+    .notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1f293d;
+    }
+    .notes-form {
+      display: grid;
+      grid-template-columns: 1fr 2fr auto;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 700px) {
+      .notes-form { grid-template-columns: 1fr; }
+    }
+    .input-field {
+      background: #0b1120;
+      border: 1px solid #334155;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: var(--font-main);
+    }
+    .input-field:focus { outline: none; border-color: #38bdf8; }
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .note-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s;
+    }
+    .note-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+    .note-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; color: white; }
+    .note-content { font-size: 0.9rem; color: #94a3b8; margin-bottom: 16px; white-space: pre-wrap; }
+    .note-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: #64748b;
+      border-top: 1px solid #1e293b;
+      padding-top: 10px;
+    }
+    .btn-delete {
+      background: none;
+      border: none;
+      color: #f43f5e;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    .btn-delete:hover { text-decoration: underline; }
+
+    /* Footer code box */
+    .docker-box {
+      background: #0b1120;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+    }
+    .docker-code { font-family: var(--font-mono); color: #38bdf8; font-size: 0.9rem; }
+    .btn-copy {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .btn-copy:hover { background: #334155; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="hero">
+    <div class="hero-badge">â˜ï¸ EPITA â€” Projet Cloud Architecture & Automatisation</div>
+    <h1>ARCL : AWS Infrastructure & Terraform Runner</h1>
+    <p>DÃ©ploiement automatisÃ© d'une architecture rÃ©siliente multi-niveaux sur AWS (ALB + Cluster EC2 Nginx/Node.js/React) et OpenStack (PostgreSQL Cluster), orchestrÃ© par un dashboard web autonome.</p>
+    
+    <div class="tech-stack">
+      <span class="tag">Terraform</span>
+      <span class="tag">AWS (ALB, EC2, VPC, SG)</span>
+      <span class="tag">OpenStack Compute</span>
+      <span class="tag">Docker Compose</span>
+      <span class="tag">Node.js & Express</span>
+      <span class="tag">React & Vite</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">Nginx</span>
+    </div>
+
+    <div class="hero-actions">
+      <a href="https://github.com/TimolSchool/ARCL-local" target="_blank" class="btn-hero primary">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Voir le Code sur GitHub
+      </a>
+      <button class="btn-hero" onclick="copyDockerCmd()">
+        ðŸ“‹ Copier commande Docker
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('runner')">âš¡ Terraform Runner (Live)</button>
+    <button class="tab-btn" onclick="switchTab('architecture')">ðŸ›ï¸ SchÃ©ma d'Architecture</button>
+    <button class="tab-btn" onclick="switchTab('app')">ðŸ“± Application Notes (Live Demo)</button>
+  </div>
+
+  <div class="container">
+    <!-- TAB 1: RUNNER UI -->
+    <div id="tab-runner" class="tab-pane active">
+      <div class="runner-grid">
+        <!-- Controls Column -->
+        <div class="control-card">
+          <h3>
+            <span>Commandes d'Orchestration</span>
+            <span style="font-size:0.75rem; background:#1e293b; color:#38bdf8; padding:2px 8px; border-radius:4px; font-weight:600;">SIMULATION V2</span>
+          </h3>
+
+          <!-- Terraform AWS -->
+          <div class="section-block">
+            <div class="section-title">1. Infrastructure AWS (final/realfinal.tf)</div>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">VPC, Subnets, ALB, Target Groups & 2 EC2 Instances.</p>
+            <div class="btn-group">
+              <button id="applyBtn" class="btn btn-primary" onclick="runSimulation('apply')">â–¶ Apply</button>
+              <button id="destroyBtn" class="btn btn-danger" onclick="runSimulation('destroy')">âœ• Destroy</button>
+            </div>
+          </div>
+
+          <!-- Selfservice DB -->
+          <div class="section-block">
+            <div class="section-title">2. OpenStack Self-Service DB</div>
+            <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Cluster PostgreSQL 15 cloud-init (10.200.0.x).</p>
+            <div class="btn-group">
+              <button id="dbApplyBtn" class="btn btn-primary" onclick="runSimulation('db-apply')">â–¶ Apply DB</button>
+              <button id="dbDestroyBtn" class="btn btn-danger" onclick="runSimulation('db-destroy')">âœ• Destroy DB</button>
+            </div>
+          </div>
+
+          <!-- EC2 Power Actions -->
+          <div class="section-block">
+            <div class="section-title">3. Instances EC2 Tagged Name=app-ec2-*</div>
+            <div class="btn-group">
+              <button id="startBtn" class="btn btn-success" onclick="runPowerAction('start')" style="display:none;">âš¡ DÃ©marrer</button>
+              <button id="stopBtn" class="btn btn-warning" onclick="runPowerAction('stop')">â¹ Stopper</button>
+            </div>
+            <div class="instance-list">
+              <div class="instance-item">
+                <span class="inst-name">app-ec2-1 (i-09f1c7d24a8e1b001)</span>
+                <span id="badge-inst-1" class="inst-state running">RUNNING</span>
+              </div>
+              <div class="instance-item">
+                <span class="inst-name">app-ec2-2 (i-09f1c7d24a8e1b002)</span>
+                <span id="badge-inst-2" class="inst-state running">RUNNING</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terminal Column -->
+        <div class="terminal-card">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="dot dot-red"></div>
+              <div class="dot dot-yellow"></div>
+              <div class="dot dot-green"></div>
+            </div>
+            <div class="term-title">bash â€” terraform output streaming</div>
+            <div class="status-badge">
+              <div id="pulseDot" class="pulse-dot"></div>
+              <span id="statusLabel">idle</span>
+            </div>
+          </div>
+          <div id="terminalOutput" class="terminal-body">> Ready. Cliquez sur "Apply", "Destroy" ou "Stopper les instances" pour observer l'orchestration en direct.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ARCHITECTURE -->
+    <div id="tab-architecture" class="tab-pane">
+      <div class="arch-card">
+        <h2>Architecture DÃ©ployÃ©e (AWS & OpenStack)</h2>
+        <p>Le projet combine deux fournisseurs cloud pour garantir haute disponibilitÃ© et isolation des donnÃ©es :</p>
+        
+        <div class="arch-diagram">
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                           CLIENT / UTILISATEUR                                 â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                        â”‚ HTTP (Port 80)
+                                        â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚               AWS APPLICATION LOAD BALANCER (TheUltimateLoadbalancer)          â”‚
+â”‚                      Listener Rule: /* â”€â”€â–º Target Group: app-tg                â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                        â”‚                               â”‚
+            Round-Robin â”‚ Port 80                       â”‚ Port 80
+                        â–¼                               â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚       INSTANCE EC2 #1         â”‚ â”‚       INSTANCE EC2 #2         â”‚
+        â”‚      (Zone eu-west-3a)        â”‚ â”‚      (Zone eu-west-3b)        â”‚
+        â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+        â”‚ â”‚ Nginx Reverse Proxy (:80) â”‚ â”‚ â”‚ â”‚ Nginx Reverse Proxy (:80) â”‚ â”‚
+        â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+        â”‚               â”‚ Proxy /api    â”‚ â”‚               â”‚ Proxy /api    â”‚
+        â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+        â”‚ â”‚ Node.js Express API (:3001)â”‚ â”‚ â”‚ â”‚ Node.js Express API (:3001)â”‚ â”‚
+        â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                        â”‚                                 â”‚
+                        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                        â”‚ SQL Queries (Port 5432)
+                                        â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                     OPENSTACK PRIVATE CLOUD (Cluster BDD)                      â”‚
+â”‚                  PostgreSQL 15 Cluster (cloud-init bootstrap)                  â”‚
+â”‚                     Base: notesdb (Table: notes)                               â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+        </div>
+
+        <div class="arch-grid">
+          <div class="arch-item">
+            <h4>âš–ï¸ Application Load Balancer</h4>
+            <p>RÃ©partition de charge automatique en Round-Robin entre les sous-rÃ©seaux publics avec vÃ©rification de santÃ© HTTP (Health Checks).</p>
+          </div>
+          <div class="arch-item">
+            <h4>ðŸš€ Instances EC2 Autonomes</h4>
+            <p>Bootstrap via <code>user_data</code> : installation automatique de Node.js 20, Nginx, PM2, clonage du dÃ©pÃ´t d'application et configuration du service systemd.</p>
+          </div>
+          <div class="arch-item">
+            <h4>ðŸ—„ï¸ Base de DonnÃ©es Self-Service</h4>
+            <p>ProvisionnÃ©e sur OpenStack via Terraform avec scripts <code>cloud-init</code> pour configurer les rÃ´les PostgreSQL et la crÃ©ation du schÃ©ma <code>notesdb</code>.</p>
+          </div>
+          <div class="arch-item">
+            <h4>ðŸ›¡ï¸ SÃ©curitÃ© RÃ©seau (SG)</h4>
+            <p>Les instances applicatives n'acceptent le trafic HTTP que provenant des Security Groups de l'ALB, isolant totalement le trafic interne.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: NOTES APP DEMO -->
+    <div id="tab-app" class="tab-pane">
+      <div class="notes-container">
+        <div class="notes-header">
+          <div>
+            <h2 style="color:white; font-size:1.3rem;">Application DÃ©ployÃ©e : Notes REST API</h2>
+            <p style="color:#94a3b8; font-size:0.9rem;">Cette application full-stack (React + Express + PostgreSQL) est celle dÃ©ployÃ©e automatiquement sur chaque instance EC2.</p>
+          </div>
+          <div style="font-family:var(--font-mono); font-size:0.85rem; color:#10b981; background:rgba(16,185,129,0.1); padding:4px 12px; border-radius:6px; border:1px solid rgba(16,185,129,0.25);">
+            GET /api/health: <strong id="healthStatus">200 OK (DB Connected)</strong>
+          </div>
+        </div>
+
+        <!-- Add Note Form -->
+        <form class="notes-form" onsubmit="addNote(event)">
+          <input type="text" id="noteTitle" class="input-field" placeholder="Titre de la note (ex: DÃ©ploiement ALB)" required />
+          <input type="text" id="noteContent" class="input-field" placeholder="Contenu de la note..." required />
+          <button type="submit" class="btn btn-primary" style="padding:10px 20px;">+ Ajouter</button>
+        </form>
+
+        <!-- Notes Grid -->
+        <div id="notesGrid" class="notes-grid">
+          <!-- Dynamic Notes -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Local run instructions box -->
+    <div class="docker-box">
+      <div>
+        <div style="color:white; font-weight:700; font-size:0.95rem; margin-bottom:2px;">Pour tester l'infrastructure en local sur n'importe quel PC avec Docker :</div>
+        <div class="docker-code">git clone https://github.com/TimolSchool/ARCL-local.git && cd ARCL-local && docker compose up</div>
+      </div>
+      <button class="btn-copy" onclick="copyDockerCmd()">Copier</button>
+    </div>
+  </div>
+
+  <script>
+    // Tab management
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // Interactive Runner Simulation
+    const term = document.getElementById('terminalOutput');
+    const pulse = document.getElementById('pulseDot');
+    const statusLabel = document.getElementById('statusLabel');
+    const badge1 = document.getElementById('badge-inst-1');
+    const badge2 = document.getElementById('badge-inst-2');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+
+    let isRunning = false;
+    let instancesActive = true;
+
+    function setTerminalStatus(text, state) {
+      statusLabel.textContent = text;
+      pulse.className = 'pulse-dot ' + (state || '');
+    }
+
+    function runSimulation(action) {
+      if (isRunning) return;
+      isRunning = true;
+      setTerminalStatus('running ' + action, 'running');
+      term.textContent = `> terraform init && terraform ${action} -auto-approve -input=false\n\n`;
+
+      const ts = new Date().toLocaleTimeString();
+
+      if (action === 'apply') {
+        const lines = [
+          `[${ts}] Initializing the backend...`,
+          `[${ts}] Initializing provider plugins...`,
+          `- Finding hashicorp/aws versions matching ">= 5.0.0"...`,
+          `- Installing hashicorp/aws v5.40.0...`,
+          `Terraform has been successfully initialized!`,
+          ``,
+          `[${ts}] terraform apply -auto-approve`,
+          `data.aws_vpc.selected: Reading...`,
+          `data.aws_lb.existing_alb: Reading... [TheUltimateLoadbalancer]`,
+          `aws_security_group.app_sg: Creating... [id=sg-0a4b2c8e19f3a]`,
+          `aws_instance.app[0]: Creating... (tag: app-ec2-1, subnet: subnet-016d2907)`,
+          `aws_instance.app[1]: Creating... (tag: app-ec2-2, subnet: subnet-0fd1e6df)`,
+          `aws_lb_target_group.app_tg: Creating... [port=80, protocol=HTTP]`,
+          `aws_lb_listener_rule.app_rule: Creating... [priority=100, path=/*]`,
+          `aws_instance.app[0]: Still creating... [10s elapsed] - Bootstrapping Node.js + React + Nginx...`,
+          `aws_instance.app[1]: Still creating... [10s elapsed] - Bootstrapping Node.js + React + Nginx...`,
+          `aws_instance.app[0]: Creation complete after 20s [id=i-09f1c7d24a8e1b001]`,
+          `aws_instance.app[1]: Creation complete after 22s [id=i-09f1c7d24a8e1b002]`,
+          `aws_lb_target_group_attachment.app_attach[0]: Creating...`,
+          `aws_lb_target_group_attachment.app_attach[1]: Creating...`,
+          `aws_lb_target_group_attachment.app_attach[0]: Creation complete after 2s`,
+          `aws_lb_target_group_attachment.app_attach[1]: Creation complete after 2s`,
+          ``,
+          `Apply complete! Resources: 6 added, 0 changed, 0 destroyed.`,
+          ``,
+          `Outputs:`,
+          `alb_url = "http://TheUltimateLoadbalancer.eu-west-3.elb.amazonaws.com"`,
+          `instance_public_ips = [`,
+          `  "15.237.45.101",`,
+          `  "15.237.45.102"`,
+          `]`
+        ];
+        streamLines(lines, () => {
+          instancesActive = true;
+          updateInstanceStateView();
+          setTerminalStatus('ok Â· apply', '');
+        });
+      } else if (action === 'destroy') {
+        const lines = [
+          `[${ts}] terraform destroy -auto-approve`,
+          `aws_lb_listener_rule.app_rule: Destroying...`,
+          `aws_lb_target_group_attachment.app_attach[0]: Destroying...`,
+          `aws_lb_target_group_attachment.app_attach[1]: Destroying...`,
+          `aws_lb_target_group.app_tg: Destroying...`,
+          `aws_instance.app[0]: Destroying... [id=i-09f1c7d24a8e1b001]`,
+          `aws_instance.app[1]: Destroying... [id=i-09f1c7d24a8e1b002]`,
+          `aws_instance.app[0]: Destruction complete after 12s`,
+          `aws_instance.app[1]: Destruction complete after 13s`,
+          `aws_security_group.app_sg: Destroying...`,
+          ``,
+          `Destroy complete! Resources: 6 destroyed.`
+        ];
+        streamLines(lines, () => {
+          instancesActive = false;
+          updateInstanceStateView();
+          setTerminalStatus('ok Â· destroy', '');
+        });
+      } else if (action === 'db-apply') {
+        const lines = [
+          `[${ts}] Initializing OpenStack provider...`,
+          `openstack_compute_instance_v2.db1: Creating... [flavor=m1.small, image=Ubuntu-22.04]`,
+          `openstack_compute_instance_v2.db2: Creating... [flavor=m1.small, image=Ubuntu-22.04]`,
+          `openstack_compute_instance_v2.db1: Creation complete after 14s [id=db-inst-01]`,
+          `openstack_compute_instance_v2.db2: Creation complete after 16s [id=db-inst-02]`,
+          ``,
+          `Apply complete! Resources: 2 added, 0 changed, 0 destroyed.`,
+          `Outputs:`,
+          `db1_ip = "10.200.0.2"`,
+          `db2_ip = "10.200.0.3"`
+        ];
+        streamLines(lines, () => setTerminalStatus('ok Â· db-apply', ''));
+      } else if (action === 'db-destroy') {
+        const lines = [
+          `[${ts}] Destroying OpenStack database instances...`,
+          `openstack_compute_instance_v2.db1: Destroying...`,
+          `openstack_compute_instance_v2.db2: Destroying...`,
+          `openstack_compute_instance_v2.db1: Destruction complete after 8s`,
+          `openstack_compute_instance_v2.db2: Destruction complete after 9s`,
+          `Destroy complete! Resources: 2 destroyed.`
+        ];
+        streamLines(lines, () => setTerminalStatus('ok Â· db-destroy', ''));
+      }
+    }
+
+    function runPowerAction(action) {
+      if (isRunning) return;
+      isRunning = true;
+      setTerminalStatus(`running ${action}-instances`, 'running');
+      term.textContent = `> aws ec2 ${action}-instances --instance-ids i-09f1c7d24a8e1b001 i-09f1c7d24a8e1b002\n\n`;
+
+      setTimeout(() => {
+        instancesActive = (action === 'start');
+        updateInstanceStateView();
+        term.textContent += `{\n  "StartingInstances": [\n    { "InstanceId": "i-09f1c7d24a8e1b001", "CurrentState": { "Name": "${instancesActive ? 'running' : 'stopped'}" } },\n    { "InstanceId": "i-09f1c7d24a8e1b002", "CurrentState": { "Name": "${instancesActive ? 'running' : 'stopped'}" } }\n  ]\n}\n\nAction ${action} terminÃ©e avec succÃ¨s.`;
+        isRunning = false;
+        setTerminalStatus('ok Â· ' + action, '');
+      }, 700);
+    }
+
+    function streamLines(lines, onDone) {
+      let idx = 0;
+      function next() {
+        if (idx < lines.length) {
+          term.textContent += lines[idx] + '\n';
+          term.scrollTop = term.scrollHeight;
+          idx++;
+          setTimeout(next, 60);
+        } else {
+          isRunning = false;
+          if (onDone) onDone();
+        }
+      }
+      next();
+    }
+
+    function updateInstanceStateView() {
+      if (instancesActive) {
+        badge1.textContent = 'RUNNING';
+        badge1.className = 'inst-state running';
+        badge2.textContent = 'RUNNING';
+        badge2.className = 'inst-state running';
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'inline-flex';
+      } else {
+        badge1.textContent = 'STOPPED';
+        badge1.className = 'inst-state stopped';
+        badge2.textContent = 'STOPPED';
+        badge2.className = 'inst-state stopped';
+        startBtn.style.display = 'inline-flex';
+        stopBtn.style.display = 'none';
+      }
+    }
+
+    // Notes App Demo (Client-side interactive state)
+    let sampleNotes = [
+      { id: 1, title: "Architecture Multi-Tier AWS", content: "Mise en place de l'Application Load Balancer avec 2 instances EC2 dans 2 zones de disponibilitÃ© diffÃ©rentes pour tolÃ©rance aux pannes.", time: "Aujourd'hui Ã  10:45" },
+      { id: 2, title: "Base de donnÃ©es OpenStack", content: "Provisionnement de la base PostgreSQL 15 sur le cloud privÃ© via cloud-init. Initialisation du schÃ©ma notesdb.", time: "Aujourd'hui Ã  11:12" },
+      { id: 3, title: "Automatisation Terraform Runner", content: "Interface web de pilotage dÃ©veloppÃ©e en Node.js pour dÃ©clencher terraform apply/destroy et piloter les instances sans console AWS.", time: "Aujourd'hui Ã  11:30" }
+    ];
+
+    function renderNotes() {
+      const container = document.getElementById('notesGrid');
+      container.innerHTML = '';
+      sampleNotes.forEach(note => {
+        const el = document.createElement('div');
+        el.className = 'note-card';
+        el.innerHTML = `
+          <div>
+            <div class="note-title">${escapeHtml(note.title)}</div>
+            <div class="note-content">${escapeHtml(note.content)}</div>
+          </div>
+          <div class="note-footer">
+            <span>ðŸ“… ${note.time}</span>
+            <button class="btn-delete" onclick="deleteNote(${note.id})">Supprimer</button>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    function addNote(e) {
+      e.preventDefault();
+      const titleInput = document.getElementById('noteTitle');
+      const contentInput = document.getElementById('noteContent');
+      const title = titleInput.value.trim();
+      const content = contentInput.value.trim();
+      if (!title || !content) return;
+
+      const newNote = {
+        id: Date.now(),
+        title,
+        content,
+        time: "Ã€ l'instant"
+      };
+      sampleNotes.unshift(newNote);
+      titleInput.value = '';
+      contentInput.value = '';
+      renderNotes();
+    }
+
+    function deleteNote(id) {
+      sampleNotes = sampleNotes.filter(n => n.id !== id);
+      renderNotes();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function copyDockerCmd() {
+      const cmd = "git clone https://github.com/TimolSchool/ARCL-local.git && cd ARCL-local && docker compose up";
+      navigator.clipboard.writeText(cmd).then(() => {
+        alert("Commande copiÃ©e dans le presse-papier :\n" + cmd);
+      });
+    }
+
+    // Init
+    renderNotes();
+  </script>
+</body>
+</html>

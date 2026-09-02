@@ -1,0 +1,8 @@
+﻿# ==============================================================================
+# AWS Credentials Template
+# ATTENTION : Ne JAMAIS commiter vos vraies cles AWS dans Git.
+# Configurez ces variables via AWS CLI (aws configure) ou vos variables d'environnement.
+# ==============================================================================
+AWS_ACCESS_KEY_ID=AKIA_VOTRE_ACCESS_KEY_ICI
+AWS_SECRET_ACCESS_KEY=VOTRE_SECRET_KEY_ICI
+AWS_DEFAULT_REGION=eu-west-3

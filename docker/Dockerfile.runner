@@ -1,0 +1,8 @@
+﻿FROM node:20-alpine
+WORKDIR /app
+COPY terraform-runner-ui ./terraform-runner-ui
+WORKDIR /app/terraform-runner-ui
+ENV PORT=8080
+ENV MOCK_MODE=true
+EXPOSE 8080
+CMD ["node", "server.js"]
